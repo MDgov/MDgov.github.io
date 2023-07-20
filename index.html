@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar</title>
+    <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+<div class="app">
+    <div class="menu-toggle">
+        <div class="hamburger">
+            <span></span>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <h3>Cyber Tips on my journey</h3>
+
+        <nav class="menu">
+            <a href="#" class="menu-item is-active" data-target="home">Home</a>
+            <a href="#" class="menu-item" data-target="RedTeam" style="color: darkred">Red Team </a>
+            <a href="#" class="menu-item" data-target="BlueTeam" style="color: deepskyblue">Blue Team</a>
+            <a href="#" class="menu-item" data-target="win" style="color:ghostwhite ">Windows</a>
+            <a href="#" class="menu-item" data-target="macos" style="color: lightslategray">MacOs</a>
+        </nav>
+
+    </aside>
+
+    <main class="content">
+        <section id="home">
+            <h1>CyberSecurity Cheat sheet </h1>
+            <p>This is a sample CyberSecyrity cheat sheet </p>
+        </section>
+
+        <section id="RedTeam" style="display: none;">
+            <h1>Red Team Cheat Sheet</h1>
+            <p>Here will be posted all the Red Cheat sheet from my journey.</p>
+        </section>
+
+        <section id="Blueteam" style="display: none;">
+            <h1>Blue Team Cheat sheet</h1>
+            <p>Here will be posted all the Red Cheat sheet from my journey</p>
+        </section>
+
+        <section id="win" style="display: none;">
+            <h1>Windows Cheat sheet</h1>
+            <p>Here will be posted all the Red Cheat sheet from my journey</p>
+        </section>
+        <section id="macos" style="display: none;">
+        <h1>Mac Os </h1>
+            <h2>The structure is defined in the mach-o/loader.h header file</h2>
+            <div class="code-box">
+
+            <pre>
+        <code>     struct mach_header {
+            uint32_t magic;
+            cpu_type_t cputype;
+            cpu_subtype_t cpusubtype;
+            uint32_t filetype;
+            uint32_t ncmds;
+            uint32_t sizeofcmds;
+            uint32_t flags;
+            };
+
+            struct mach_header_64 {
+            uint32_t magic;
+            cpu_type_t cputype;
+            cpu_subtype_t cpusubtype;
+            uint32_t filetype;
+            uint32_t ncmds;
+            uint32_t sizeofcmds;
+            uint32_t flags;
+            uint32_t reserved;
+            };
+               </code>
+    </pre>
+                </div>
+            <hr>
+            <h3>Magic</h3>
+            <p>is used to judge the platform version of the program, that is to say, it is x86 or x64. In mach-o/loader.h, you will see two macros near the structure defining machheader and machheader64. If the value of MHMAGIC is 0xfeedface, it means it is On the contrary, if an x86 program is 0xfeedfacf, it is an x64 program (the above theory is based on osx, ios has not been verified).
+            </p>
+            <div class="code-box">
+            <pre><code>
+#define MH_MAGIC 0xfeedface /* the mach magic number */
+#define MH_CIGAM 0xcefaedfe /* NXSwapInt(MH_MAGIC) */
+
+#define MH_MAGIC_64 0xfeedfacf /* the 64-bit mach magic number */
+#define MH_CIGAM_64 0xcffaedfe /* NXSwapInt(MH_MAGIC_64) */
+            </code></pre>
+            </div>
+            <hr>
+            <h4>FileType</h4>
+            <p>is used to judge the file type of the program, defining a set of macros in mach-o/loader.h can intuitively understand the meaning of this bit.
+            </p>
+            <div class="code-box">
+            <pre><code>
+#define MH_OBJECT 0x1 /* relocatable object file */
+#define MH_EXECUTE 0x2 /* demand paged executable file */
+#define MH_FVMLIB 0x3 /* fixed VM shared library file */
+#define MH_CORE 0x4 /* core file */
+#define MH_PRELOAD 0x5 /* preloaded executable file */
+#define MH_DYLIB 0x6 /* dynamically bound shared library */
+#define MH_DYLINKER 0x7 /* dynamic link editor */
+#define MH_BUNDLE 0x8 /* dynamically bound bundle file */
+#define MH_DYLIB_STUB 0x9 /* shared library stub for static */
+                /* linking only, no section contents */
+#define MH_DSYM 0xa /* companion file with only debug */
+                /* sections */
+#define MH_KEXT_BUNDLE 0xb /* x86_64 kexts */
+            </code></pre>
+            </div>
+            <hr>
+            <h5>cmd and cmdsize</h5>
+            <div class="code-box"><pre><code>
+segment_command LC_SEGMENT
+segment_command_64 LC_SEGMENT_64
+fvmlib_command LC_IDFVMLIB or LC_LOADFVMLIB
+dylib_command LC_ID_DYLIB, LC_LOAD_{,WEAK_}DYLIB, LC_REEXPORT_DYLIB`
+sub_framework_command LC_SUB_FRAMEWORK
+sub_client_command LC_SUB_CLIENT`
+sub_umbrella_command LC_SUB_UMBRELLA
+sub_library_command LC_SUB_LIBRARY
+prebound_dylib_command LC_PREBOUND_DYLIB
+dylinker_command LC_ID_DYLINKER, LC_LOAD_DYLINKER or LC_DYLD_ENVIRONMENT
+thread_command LC_THREAD or LC_UNIXTHREAD
+routines_command LC_ROUTINES
+symtab_command LC_SYMTAB
+dyssymtab_command LC_DYSYMTAB
+twolevel_hints_command LC_TWOLEVEL_HINTS
+prebind_cksum_command LC_PREBIND_CKSUM
+uuid_command LC_UUID
+rpath_command LC_RPATH
+linkedit_data_command LC_CODE_SIGNATURE, LC_SEGMENT_SPLIT_INFO, LC_FUNCTION_STARTS, LC_DATA_IN_CODE, LC_DYLIB_CODE_SIGN_DRS or LC_LINKER_OPTIMIZATION_HINT.
+encryption_info_command LC_ENCRYPTION_INFO
+version_min_command LC_VERSION_MIN_MACOSX or LC_VERSION_MIN_IPHONEOS LC_VERSION_MIN_WATCHOS
+dyld_info_command LC_DYLD_INFO or LC_DYLD_INFO_ONLY
+linker_option_command LC_LINKER_OPTION
+symseg_command LC_SYMSEG
+ident_command LC_IDENT
+fvmfile_command LC_FVMFILE
+entry_point_command LC_MAIN
+source_version_command LC_SOURCE_VERSION
+            </code></pre>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    const menuItems = document.querySelectorAll('.menu-item');
+    const sections = document.querySelectorAll('section');
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Remove active class from all menu items
+            menuItems.forEach(item => item.classList.remove('is-active'));
+
+            // Hide all sections
+            sections.forEach(section => section.style.display = 'none');
+
+            // Add active class to the clicked menu item
+            item.classList.add('is-active');
+
+            // Show the corresponding section based on the data-target attribute
+            const target = item.getAttribute('data-target');
+            const section = document.getElementById(target);
+            section.style.display = 'block';
+        });
+    });
+</script>
+</body>
+</html>
